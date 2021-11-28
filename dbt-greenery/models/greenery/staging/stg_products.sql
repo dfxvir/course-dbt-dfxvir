@@ -5,5 +5,5 @@
 }}
 
 SELECT
-*
-FROM {{ source('greenery', 'events') }}
+a.*
+FROM {{ source('greenery', 'products') }} a

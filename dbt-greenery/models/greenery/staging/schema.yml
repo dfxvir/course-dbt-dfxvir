@@ -1,0 +1,149 @@
+version: 2
+
+models:
+  - name: base_addresses
+    columns:
+      - name: address_id
+        tests:
+          - unique
+          - not_null
+      - name: address
+        tests:
+          - not_null
+      - name: zipcode
+        tests:
+          - not_null
+      - name: country
+          - not_null
+
+  - name: base_users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        tests:
+          - not_null
+      - name: last_name
+        tests:
+          - not_null
+      - name: email
+        tests:
+          - unique:
+              config:
+                severity: error
+                error_if: ">2"
+                warn_if: ">1"
+                limit: 10
+                store_failures: true
+
+      - name: address_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_addresses')
+              field: address_id  
+  
+  - name: stg_events
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_users')
+              field: user_id  
+  
+  - name: stg_order_items 
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+      - name: quantity
+        tests:
+          - positive_values
+          - not0_values
+    
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('stg_order_items')
+              field: order_id
+      - name: order_status
+        tests:
+          - accepted_values:
+              values: ['pending', 'shipped', 'preparing', 'delivered', 'returned']
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: address_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_addresses')
+              field: address_id
+      - name: promo_id
+        tests:
+          - relationships:
+              to: ref('stg_promos')
+              field: promo_id  
+      - name: order_cost
+        tests:
+          - positive_values
+          - not0_values
+      - name: order_total
+        tests:
+          - positive_values
+          - not0_values  
+      - name: shipping_cost
+        tests:
+          - positive_values
+          - not0_values
+
+  - name: stg_products
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: name
+        tests:
+          - not_null
+      - name: price
+        tests:
+          - positive_values
+          - not0_values
+   
+  - name: stg_promos
+    columns:
+      - name: promo_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null

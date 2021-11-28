@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: int_order_promos
+  - name: int_repeating_users
+  - name: int_repeat_rate
+  - name: fact_user_orders
+ 
