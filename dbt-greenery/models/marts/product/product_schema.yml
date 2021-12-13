@@ -2,3 +2,6 @@ version: 2
 
 models:
   - name: fact_page_views
+  - name: fact_user_events
+  - name: fact_session_events
+  - name: fact_session_funnel

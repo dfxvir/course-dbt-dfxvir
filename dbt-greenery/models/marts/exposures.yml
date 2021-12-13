@@ -1,0 +1,17 @@
+version: 2
+
+exposures:
+   - name: nice_funnel
+     type: dashboard
+     maturity: high
+     url: https://bi.tool/dashboards/1
+     description: >
+      this is really a nice funnel!
+    
+     depends_on:
+      - ref('fact_session_events')
+      - ref('fact_session_funnel')
+      
+     owner:
+      name: Vincent Rejany
+      email: vincent.rejany@sas.com

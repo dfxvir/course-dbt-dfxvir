@@ -62,7 +62,7 @@ sources:
         description: >
           Contains Greenery Users address information
       - name: stg_users 
-        loaded_at_field: created_at
+        loaded_at_field: user_created_at
         description: >
           Contains Greenery Users address information
       - name: stg_events 
@@ -70,7 +70,7 @@ sources:
         description: >
           Contains Greenery Events information
       - name: stg_orders 
-        loaded_at_field: created_at
+        loaded_at_field: order_created_at
         description: >
           Contains Greenery Orders information
       - name: stg_order_items 
